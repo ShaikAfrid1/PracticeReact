@@ -48,7 +48,12 @@ const App = () => {
 
       <ul className="gap-4  flex flex-col">
         {filteredUsers.map((user) => (
-          <UserCard key={user.id} name={user.name} email={user.email} />
+          <UserCard
+            key={user.id}
+            name={user.name}
+            email={user.email}
+            isActive={user.name.startsWith("E")}
+          />
         ))}
       </ul>
     </div>
