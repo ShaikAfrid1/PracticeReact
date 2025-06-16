@@ -1,5 +1,9 @@
+import { useContext } from "react";
+import { Datacontext } from "../context/Datacontext";
+
 const About = () => {
-  return <div>About</div>;
+  const user = useContext(Datacontext);
+  return <div>About {user}</div>;
 };
 
 export default About;
