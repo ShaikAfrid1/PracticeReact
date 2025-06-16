@@ -1,6 +1,10 @@
+import axios from "axios";
 import Card from "./components/Card";
 import NavBar from "./components/NavBar";
+import { useEffect, useState } from "react";
 const App = () => {
+  const [datas, setDatas] = useState([]);
+
   const data = [
     {
       name: "Aryan Shah",
@@ -36,20 +40,33 @@ const App = () => {
     },
     {
       name: "Karan Patel",
-      image: "https://images.unsplash.com/photo-1569210538317-4d53f92a0e21?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NDZ8fG1vZGVsc3xlbnwwfHwwfHx8MA%3D%3D",
+      image:
+        "https://images.unsplash.com/photo-1569210538317-4d53f92a0e21?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NDZ8fG1vZGVsc3xlbnwwfHwwfHx8MA%3D%3D",
       age: 28,
       city: "Ahmedabad",
       profession: "Software Engineer",
     },
   ];
 
+  const dataHandler = async () => {
+    const res = await axios.get(
+      "https://picsum.photos/v2/list?page=2&limit=30"
+    );
+    setDatas(res.data);
+  };
+
+  useEffect(() => {
+    dataHandler();
+  }, []);
+
   return (
     <>
       <NavBar />
       <div>
-        {data.map((e) => {
+        {data.map((e, idx) => {
           return (
             <Card
+              key={idx}
               name={e.name}
               age={e.age}
               city={e.city}
@@ -58,6 +75,26 @@ const App = () => {
             />
           );
         })}
+      </div>
+
+      <div>
+        <div className="p-5 mt-5 flex flex-col  text-black bg-gray-950">
+          {datas.map((e, idx) => {
+            return (
+              <div
+                key={idx}
+                className="bg-gray-50 flex justify-between items-center m-5 p-5"
+              >
+                <img
+                  className="object-cover h-40"
+                  src={e.download_url}
+                  alt=""
+                />
+                <h1>{e.author}</h1>
+              </div>
+            );
+          })}
+        </div>
       </div>
     </>
   );
